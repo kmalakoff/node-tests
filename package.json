@@ -1,10 +1,10 @@
 {
   "name": "fs-compat",
   "version": "0.1.0",
-  "description": "Compatibility library to allow the latest fs API to work with pervious versions of Node.js",
+  "description": "Compatibility library to allow the latest fs API to work with previous versions of Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "scripts/run-tests --expose-internals",
+    "test": "node scripts/run-tests --expose-gc --no-warnings --expose-internals",
     "compat": "nvs 14,12,10,8,6,4,0.12,0.10,0.8 mocha-compat test/spec/**/*.test.js",
     "lint": "eslint . --ext js,mjs",
     "format": "prettier --write '**/*.{js,mjs}'",
@@ -42,6 +42,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "expose-gc": "^1.0.0",
     "fs-iterator": "^3.0.1",
     "fs-stats-spys": "^1.0.1",
     "lodash.some": "^4.6.0",
