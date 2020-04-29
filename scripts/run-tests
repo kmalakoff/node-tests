@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var Iterator = require('fs-iterator');
+var minimatch = require('minimatch');
+var some = require('lodash.some');
+var mock = require('mock-require');
+
+function lazyRequire(lazy) {
+  return function () {
+    return require(lazy);
+  };
+}
+
+global.internalBinding = function (name) {
+  if (name === 'types') return require('./internal/util/types');
+  // eslint-disable-next-line node/no-deprecated-api
+  return process.binding(name);
+};
+global.primordials = {};
+global.primordials.SymbolFor = Symbol.for;
+global.primordials.ObjectGetPrototypeOf = Object.getPrototypeOf;
+require('./internal/per_context/primordials');
+
+mock('internal/assert', lazyRequire('./internal/assert'));
+mock('internal/bootstrap/loaders', lazyRequire('./internal/bootstrap/loaders'));
+mock('internal/errors', lazyRequire('./internal/errors'));
+mock('internal/fs/utils', lazyRequire('./internal/fs/utils'));
+mock('internal/test/binding', lazyRequire('./internal/test/binding'));
+mock('internal/util', lazyRequire('./internal/util'));
+mock('internal/util/types', lazyRequire('./internal/util/types'));
+mock('internal/util/inspect', lazyRequire('./internal/util/inspect'));
+mock('internal/url', lazyRequire('./internal/url'));
+mock('fs', require('..'));
+
+var TESTS_DIR = path.join(__dirname, '..', 'test', 'src');
+var EXCLUDE_FILES = ['common/*', 'fixtures/*', 'pummel/*'];
+var KEEP_FILES = ['common/*.js', 'parallel/**/*-fs-*.js', 'pummel/**/*-fs-*.js', 'sequential/**/*-fs-*.js'];
+
+var errors = [];
+var iterator = new Iterator(TESTS_DIR);
+iterator.forEach(
+  function (entry) {
+    if (!entry.stats.isFile()) return;
+    if (some(EXCLUDE_FILES, minimatch.bind(null, entry.path))) return;
+    if (!some(KEEP_FILES, minimatch.bind(null, entry.path))) return;
+
+    try {
+      require(entry.fullPath);
+    } catch (err) {
+      console.log(entry.path);
+      console.log(err);
+      errors.push(err);
+    }
+  },
+  function (err) {
+    if (err) return console.log(err.message);
+    if (errors.length) console.log('Done with ' + errors.length + ' errors');
+  }
+);

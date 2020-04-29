@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var fs = require('fs');
+var rimraf = require('rimraf');
+var mkdirp = require('mkdirp');
+var Iterator = require('fs-iterator');
+var ncp = require('ncp').ncp;
+var minimatch = require('minimatch');
+var some = require('lodash.some');
+var assign = require('object.assign');
+var Queue = require('queue-cb');
+var babel = require('@babel/core');
+
+var TESTS_SRC = path.join(__dirname, '..', 'test', 'src');
+var TESTS_DIR = path.join(__dirname, '..', 'test', 'dist');
+var KEEP_FILES = ['common/*.js', 'parallel/**/*-fs-*.js', 'pummel/**/*-fs-*.js', 'sequential/**/*-fs-*.js'];
+var COPY_FOLDERS = ['fixtures'];
+var BABEL_OPTIONS = {
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        targets: {
+          node: '0.6',
+        },
+      },
+    ],
+  ],
+  parserOpts: {
+    allowReturnOutsideFunction: true,
+  },
+  plugins: ['@babel/plugin-transform-runtime'],
+};
+
+rimraf.sync(TESTS_DIR);
+
+var iterator = new Iterator(TESTS_SRC);
+iterator.forEach(
+  function (entry) {
+    if (!entry.stats.isFile()) return;
+    if (!some(KEEP_FILES, minimatch.bind(null, entry.path))) return;
+
+    var contents = fs.readFileSync(entry.fullPath, 'utf8');
+    var transpiled = babel.transformSync(contents, assign({ filename: entry.fullPath }, BABEL_OPTIONS));
+    var fullPath = path.join(TESTS_DIR, entry.path);
+    mkdirp.sync(path.dirname(fullPath));
+    fs.writeFileSync(fullPath, transpiled.code);
+  },
+  function (err) {
+    if (err) return console.log(err.message);
+    var queue = new Queue(1);
+    COPY_FOLDERS.forEach(function (x) {
+      queue.defer(ncp.bind(null, path.join(TESTS_SRC, x), path.join(TESTS_DIR, x)));
+    });
+    queue.await(function (err) {
+      if (err) return console.log(err.message);
+    });
+  }
+);
