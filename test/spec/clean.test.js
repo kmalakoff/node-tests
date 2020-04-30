@@ -2,7 +2,7 @@ var assert = require('assert');
 var fs = require('fs');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
-var Queue = require('queue-async');
+var Queue = require('queue-cb');
 
 var nodeTests = require('../..');
 var BUILD_DIR = require('../../lib/DIRECTORIES').BUILD;

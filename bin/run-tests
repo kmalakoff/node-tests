@@ -3,6 +3,7 @@
 var program = require('commander');
 var run = require('../lib/run');
 
+program.option('-v, --version [version]', 'node version to test against', 'v14.x');
 program.option('-m, --match <pattern>', 'patterns to include', ['*-fs-*.js']);
 program.option('-m, --module', 'module to test');
 program.option('-mp, --modulePath', 'module path to test');

@@ -3,6 +3,7 @@
 var program = require('commander');
 var runTest = require('../lib/runTest');
 
+program.option('-v, --version [version]', 'node version to test against', 'v14.x');
 program.option('-m, --module', 'module to test');
 program.option('-mp, --modulePath', 'module path to test');
 program.parse(process.argv);
