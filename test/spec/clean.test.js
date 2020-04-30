@@ -1,13 +1,11 @@
 var assert = require('assert');
 var fs = require('fs');
-var path = require('path');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
 var Queue = require('queue-async');
 
 var nodeTests = require('../..');
-
-var BUILD_DIR = path.join(__dirname, '..', '..', '.build');
+var BUILD_DIR = require('../../lib/DIRECTORIES').BUILD;
 
 describe('clean', function () {
   beforeEach(rimraf.bind(null, BUILD_DIR));
@@ -15,6 +13,13 @@ describe('clean', function () {
 
   it('ignores missing directory', function (done) {
     var queue = new Queue(1);
+
+    queue.defer(function (callback) {
+      nodeTests.clean({}, function (err) {
+        assert.ok(!err);
+        callback();
+      });
+    });
 
     queue.defer(function (callback) {
       fs.access(BUILD_DIR, function (err) {

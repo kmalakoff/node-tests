@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+var runTest = require('../lib/runTest');
+
+program.option('-m, --module', 'module to test');
+program.option('-mp, --modulePath', 'module path to test');
+program.parse(process.argv);
+
+console.log(process.argv);
+
+if (program.args.length < 1) {
+  console.log('Missing command. Example usage: run-test [test]');
+  return process.exit(-1);
+}
+if ((program.module && !program.modulePath) || (!program.module && program.modulePath)) {
+  console.log('When you supply --module or --modulePath, you must also provide the other');
+  return process.exit(-1);
+}
+
+runTest(program.args[0], program, function (err) {
+  !err || console.log(err);
+});

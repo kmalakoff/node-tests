@@ -4,8 +4,8 @@
   "description": "Compatibility library to allow the latest fs API to work with previous versions of Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/spec/**/*.test.js",
-    "compat": "nvs 14,12,10,8,6,4,0.12,0.10,0.8 mocha-compat test/spec/**/*.test.js",
+    "test": "mocha-compat test/spec/**/*.test.js --timeout=100000",
+    "compat": "nvs 14,12,10,8,6 mocha-compat test/spec/**/*.test.js",
     "lint": "eslint . --ext js,mjs",
     "format": "prettier --write '**/*.{js,mjs}'"
   },
@@ -24,14 +24,28 @@
     "url": "https://github.com/kmalakoff/fs-generate/issues"
   },
   "homepage": "https://github.com/kmalakoff/fs-generate#readme",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.9.6",
     "@babel/preset-env": "^7.9.5",
     "@babel/runtime": "^7.9.6",
+    "commander": "^2.20.3",
+    "cross-spawn-cb": "^0.1.1",
+    "expose-gc": "^1.0.0",
+    "fs-iterator": "^3.0.1",
+    "fs-stats-spys": "^1.0.1",
+    "lodash.some": "^4.6.0",
+    "minimatch": "^3.0.4",
+    "mkpath": "^1.0.0",
+    "mock-require": "kmalakoff/mock-require#master",
+    "object.assign": "^4.1.0",
+    "ncp": "^2.0.0",
+    "queue-cb": "^1.1.2",
+    "rimraf": "^2.7.1"
+  },
+  "devDependencies": {
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
@@ -41,21 +55,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "expose-gc": "^1.0.0",
-    "fs-iterator": "^3.0.1",
-    "fs-stats-spys": "^1.0.1",
-    "lodash.some": "^4.6.0",
-    "minimatch": "^3.0.4",
-    "mkpath": "^1.0.0",
-    "mocha": "^7.1.2",
     "mocha-compat": "^3.5.5",
-    "mock-require": "kmalakoff/mock-require#master",
-    "ncp": "^2.0.0",
     "nvs": "^0.2.0",
-    "object.assign": "^4.1.0",
-    "prettier": "^2.0.5",
-    "queue-async": "^1.2.1",
-    "queue-cb": "^1.1.2",
-    "rimraf": "^2.7.1"
+    "prettier": "^2.0.5"
   }
 }
