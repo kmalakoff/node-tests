@@ -4,11 +4,10 @@
   "description": "Compatibility library to allow the latest fs API to work with previous versions of Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "node scripts/run-tests --expose-gc --no-warnings --expose-internals",
+    "test": "mocha test/spec/**/*.test.js",
     "compat": "nvs 14,12,10,8,6,4,0.12,0.10,0.8 mocha-compat test/spec/**/*.test.js",
     "lint": "eslint . --ext js,mjs",
-    "format": "prettier --write '**/*.{js,mjs}'",
-    "build": "scripts/build-tests"
+    "format": "prettier --write '**/*.{js,mjs}'"
   },
   "repository": {
     "type": "git",
@@ -50,11 +49,12 @@
     "mkpath": "^1.0.0",
     "mocha": "^7.1.2",
     "mocha-compat": "^3.5.5",
-    "mock-require": "^3.0.3",
+    "mock-require": "kmalakoff/mock-require#master",
     "ncp": "^2.0.0",
     "nvs": "^0.2.0",
     "object.assign": "^4.1.0",
     "prettier": "^2.0.5",
+    "queue-async": "^1.2.1",
     "queue-cb": "^1.1.2",
     "rimraf": "^2.7.1"
   }
