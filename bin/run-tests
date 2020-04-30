@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+var run = require('../lib/run');
+
+run({}, function (err) {
+  !err || console.log(err);
+});

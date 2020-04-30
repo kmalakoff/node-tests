@@ -4,7 +4,9 @@
   "description": "Compatibility library to allow the latest fs API to work with previous versions of Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "mocha-compat test/spec/**/*.test.js --timeout=100000",
+    "test": "run-s test-mocha test-node",
+    "test-node": "bin/run-tests",
+    "test-mocha": "mocha-compat test/spec/**/*.test.js",
     "compat": "nvs 14,12,10,8,6 mocha-compat test/spec/**/*.test.js",
     "lint": "eslint . --ext js,mjs",
     "format": "prettier --write '**/*.{js,mjs}'"
@@ -33,9 +35,7 @@
     "@babel/runtime": "^7.9.6",
     "commander": "^2.20.3",
     "cross-spawn-cb": "^0.1.1",
-    "expose-gc": "^1.0.0",
     "fs-iterator": "^3.0.1",
-    "fs-stats-spys": "^1.0.1",
     "lodash.some": "^4.6.0",
     "minimatch": "^3.0.4",
     "mkpath": "^1.0.0",
@@ -56,6 +56,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "mocha-compat": "^3.5.5",
+    "npm-run-all": "^4.1.5",
     "nvs": "^0.2.0",
     "prettier": "^2.0.5"
   }
