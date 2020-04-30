@@ -1,7 +1,21 @@
 #!/usr/bin/env node
 
+var program = require('commander');
 var run = require('../lib/run');
 
-run({}, function (err) {
-  !err || console.log(err);
+program.option('-m, --match <pattern>', 'patterns to include', ['*-fs-*.js']);
+program.option('-m, --module', 'module to test');
+program.option('-mp, --modulePath', 'module path to test');
+program.parse(process.argv);
+
+if ((program.module && !program.modulePath) || (!program.module && program.modulePath)) {
+  console.log('When you supply --module or --modulePath, you must also provide the other');
+  return process.exit(-1);
+}
+
+run(program, function (err) {
+  if (err) {
+    console.log(err);
+    process.exit(-1);
+  }
 });

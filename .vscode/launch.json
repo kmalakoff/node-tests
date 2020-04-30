@@ -16,6 +16,14 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Run Tests",
+      "program": "${workspaceFolder}/bin/run-tests",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Run Test",
       "program": "${workspaceFolder}/bin/run-test",
       "runtimeArgs": ["--expose-gc", "--no-warnings", "--expose-internals", "--expose_externalize_string"],
