@@ -1,29 +1,32 @@
 var assert = require('assert');
 var fs = require('fs');
+var path = require('path');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
+var parallel = require('run-parallel');
 var Queue = require('queue-cb');
 
 var nodeTests = require('../..');
+var CACHE_DIR = require('../../lib/DIRECTORIES').CACHE;
 var BUILD_DIR = require('../../lib/DIRECTORIES').BUILD;
 
 describe('clean', function () {
-  beforeEach(rimraf.bind(null, BUILD_DIR));
-  after(rimraf.bind(null, BUILD_DIR));
+  beforeEach(parallel.bind(null, [rimraf.bind(null, CACHE_DIR), rimraf.bind(null, BUILD_DIR)]));
+  afterEach(parallel.bind(null, [rimraf.bind(null, CACHE_DIR), rimraf.bind(null, BUILD_DIR)]));
 
   it('ignores missing directory', function (done) {
     var queue = new Queue(1);
 
     queue.defer(function (callback) {
-      nodeTests.clean({}, function (err) {
+      nodeTests.clean({ version: 'v1.0.0' }, function (err) {
         assert.ok(!err);
         callback();
       });
     });
 
     queue.defer(function (callback) {
-      fs.access(BUILD_DIR, function (err) {
-        assert.ok(!!err);
+      fs.access(path.join(BUILD_DIR, 'v1.0.0'), function (missing) {
+        assert.ok(missing);
         callback();
       });
     });
@@ -37,24 +40,25 @@ describe('clean', function () {
   it('cleans existing directory', function (done) {
     var queue = new Queue(1);
 
-    queue.defer(mkdirp.bind(null, BUILD_DIR));
+    queue.defer(mkdirp.bind(null, path.join(CACHE_DIR, 'v1.0.0')));
+    queue.defer(mkdirp.bind(null, path.join(BUILD_DIR, 'v1.0.0')));
     queue.defer(function (callback) {
-      fs.access(BUILD_DIR, function (err) {
+      nodeTests.clean({ version: 'v1.0.0' }, function (err) {
         assert.ok(!err);
         callback();
       });
     });
 
     queue.defer(function (callback) {
-      nodeTests.clean({}, function (err) {
-        assert.ok(!err);
+      fs.access(path.join(CACHE_DIR, 'v1.0.0'), function (missing) {
+        assert.ok(missing);
         callback();
       });
     });
 
     queue.defer(function (callback) {
-      fs.access(BUILD_DIR, function (err) {
-        assert.ok(!!err);
+      fs.access(path.join(BUILD_DIR, 'v1.0.0'), function (missing) {
+        assert.ok(missing);
         callback();
       });
     });
