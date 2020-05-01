@@ -1,5 +1,5 @@
 {
-  "name": "fs-compat",
+  "name": "node-tests",
   "version": "0.1.0",
   "description": "Repackaging of node tests for testing compatibility against",
   "main": "index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kmalakoff/fs-generate.git"
+    "url": "git+https://github.com/kmalakoff/node-tests.git"
   },
   "keywords": [
     "fs",
@@ -23,9 +23,9 @@
   "author": "Kevin Malakoff <kmalakoff@gmail.com> (https://github.com/kmalakoff)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kmalakoff/fs-generate/issues"
+    "url": "https://github.com/kmalakoff/node-tests/issues"
   },
-  "homepage": "https://github.com/kmalakoff/fs-generate#readme",
+  "homepage": "https://github.com/kmalakoff/node-tests#readme",
   "dependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
