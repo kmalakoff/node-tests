@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-var runTest = require('../lib/runTest');
+var NodeTests = require('..');
 
 program.option('-v, --version [version]', 'node version to test against');
 program.option('-m, --module [module]', 'module to test');
@@ -12,7 +12,8 @@ if (program.args.length < 1) {
   return process.exit(-1);
 }
 
-runTest(program.args[0], program, function (err) {
+var tests = new NodeTests(program);
+tests.runTest(program.args[0], function (err) {
   if (err) {
     console.log(err);
     process.exit(-1);

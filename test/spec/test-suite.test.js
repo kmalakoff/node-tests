@@ -1,26 +1,28 @@
 var assert = require('assert');
 var path = require('path');
-var rimraf = require('rimraf');
-var parallel = require('run-parallel');
 
-var nodeTests = require('../..');
-var CACHE_DIR = require('../../lib/DIRECTORIES').CACHE;
-var BUILD_DIR = require('../../lib/DIRECTORIES').BUILD;
+var NodeTests = require('../..');
 var fsCompatModulePath = require.resolve(path.join('..', 'lib', 'fs-compat'));
 
 describe('test-suite', function () {
-  // before(parallel.bind(null, [rimraf.bind(null, CACHE_DIR), rimraf.bind(null, BUILD_DIR)]));
-  // after(parallel.bind(null, [rimraf.bind(null, CACHE_DIR), rimraf.bind(null, BUILD_DIR)]));
+  var tests = new NodeTests({
+    repositoryURL: function (version) {
+      return 'https://codeload.github.com/kmalakoff/node-tests-data/zip/' + version;
+    },
+  });
+
+  // before(tests.clean.bind(tests));
+  // after(tests.clean.bind(tests));
 
   it.only('runs fs tests with fs-compat', function (done) {
-    nodeTests.install({ repository: 'https://codeload.github.com/kmalakoff/node-tests-data/zip/', version: 'v1.0.0' }, function (err) {
+    tests.install({ version: 'v1.0.0' }, function (err) {
       assert.ok(!err);
 
-      nodeTests.build({ version: 'v1.0.0' }, function (err) {
+      tests.build({ version: 'v1.0.0' }, function (err) {
         assert.ok(!err);
 
-        nodeTests.runSuite({ version: 'v1.0.0', module: 'fs,' + fsCompatModulePath }, function (err) {
-          // nodeTests.runSuite({ version: 'v1.0.0', module: 'fs,' + fsCompatModulePath, filters: ['*fs-readdi*.js'] }, function (err) {
+        tests.runSuite({ version: 'v1.0.0', module: 'fs,' + fsCompatModulePath }, function (err) {
+          // tests.runSuite({ version: 'v1.0.0', module: 'fs,' + fsCompatModulePath, filters: ['*fs-readdi*.js'] }, function (err) {
           assert.ok(!err);
           done();
         });
