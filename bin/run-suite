@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-var run = require('../lib/run');
+var run = require('../lib/runSuite');
 
 program.option('-v, --version [version]', 'node version to test against', 'v14.x');
 program.option('-m, --match <pattern>', 'patterns to include', ['*-fs-*.js']);
