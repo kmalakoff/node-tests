@@ -51,6 +51,7 @@
     "pretty-bytes": "^5.3.0",
     "queue-cb": "^1.1.2",
     "rimraf": "^2.7.1",
+    "semver-compare": "^1.0.0",
     "single-line-log": "^1.1.2",
     "starts-with": "^1.0.2",
     "string.prototype.replaceall": "^1.0.3",

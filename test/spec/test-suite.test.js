@@ -20,6 +20,7 @@ describe('test-suite', function () {
         assert.ok(!err);
 
         nodeTests.runSuite({ version: 'v1.0.0', module: 'fs,' + fsCompatModulePath }, function (err) {
+          // nodeTests.runSuite({ version: 'v1.0.0', module: 'fs,' + fsCompatModulePath, filters: ['*fs-readdi*.js'] }, function (err) {
           assert.ok(!err);
           done();
         });
