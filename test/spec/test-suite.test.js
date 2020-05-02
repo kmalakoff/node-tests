@@ -17,7 +17,7 @@ describe('test-suite', function () {
   // before(tests.clean.bind(tests));
   // after(tests.clean.bind(tests));
 
-  it.only('runs fs tests with built-in fs', function (done) {
+  it('runs fs tests with built-in fs', function (done) {
     tests.runSuite({ version: 'v1.0.0', match: MATCHES, ignore: IGNORES }, function (err) {
       assert.ok(!err);
       done();

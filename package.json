@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha-compat test/spec/**/*.test.js --timeout=999999",
-    "compat": "nvs 14,12,10,8,6 mocha-compat test/spec/**/*.test.js --timeout=999999",
+    "compat": "nvs 14,12,10,8,6 -- mocha-compat test/spec/**/*.test.js --timeout=999999",
     "lint": "eslint . --ext js,mjs",
     "format": "prettier --write '**/*.{js,mjs}'"
   },
@@ -41,13 +41,16 @@
     "end-of-stream": "^1.4.4",
     "fs-iterator": "^3.0.1",
     "homedir-polyfill": "^1.0.3",
+    "inherits": "^2.0.4",
     "lockfile": "^1.0.4",
     "lodash.some": "^4.6.0",
     "minimatch": "^3.0.4",
     "mkpath": "^1.0.0",
     "mock-require": "kmalakoff/mock-require#master",
     "ncp": "^2.0.0",
+    "next-tick": "^1.1.0",
     "object.assign": "^4.1.0",
+    "once": "^1.4.0",
     "pretty-bytes": "^5.3.0",
     "queue-cb": "^1.1.2",
     "rimraf": "^2.7.1",
@@ -60,8 +63,10 @@
     "uuid": "^8.0.0"
   },
   "devDependencies": {
+    "async-each": "^1.0.3",
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
+    "dirent-from-stats": "^1.0.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
