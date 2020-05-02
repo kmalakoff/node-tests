@@ -4,6 +4,7 @@ var path = require('path');
 var NodeTests = require('../..');
 var fsCompatModulePath = require.resolve(path.join('..', 'lib', 'fs-compat'));
 
+var MATCHES = ['*fs-readd*', '*fs-stat*', '*fs-realp*'];
 var IGNORES = ['test-fs-read-type.js', 'test-fs-close-errors.js'];
 
 describe('test-suite', function () {
@@ -17,32 +18,16 @@ describe('test-suite', function () {
   // after(tests.clean.bind(tests));
 
   it.only('runs fs tests with built-in fs', function (done) {
-    tests.install({ version: 'v1.0.0' }, function (err) {
+    tests.runSuite({ version: 'v1.0.0', match: MATCHES, ignore: IGNORES }, function (err) {
       assert.ok(!err);
-
-      tests.build({ version: 'v1.0.0' }, function (err) {
-        assert.ok(!err);
-
-        tests.runSuite({ version: 'v1.0.0', ignore: IGNORES }, function (err) {
-          assert.ok(!err);
-          done();
-        });
-      });
+      done();
     });
   });
 
   it.only('runs fs tests with fs-compat', function (done) {
-    tests.install({ version: 'v1.0.0' }, function (err) {
+    tests.runSuite({ version: 'v1.0.0', match: MATCHES, ignore: IGNORES, module: 'fs,' + fsCompatModulePath }, function (err) {
       assert.ok(!err);
-
-      tests.build({ version: 'v1.0.0' }, function (err) {
-        assert.ok(!err);
-
-        tests.runSuite({ version: 'v1.0.0', ignore: IGNORES, module: 'fs,' + fsCompatModulePath }, function (err) {
-          assert.ok(!err);
-          done();
-        });
-      });
+      done();
     });
   });
 });

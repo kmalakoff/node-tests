@@ -20,13 +20,9 @@ describe('build', function () {
   });
 
   it('builds a valid version', function (done) {
-    tests.install({ version: 'v1.0.0' }, function (err) {
+    tests.build({ version: 'v1.0.0' }, function (err) {
       assert.ok(!err);
-
-      tests.build({ version: 'v1.0.0' }, function (err) {
-        assert.ok(!err);
-        done();
-      });
+      done();
     });
   });
 });

@@ -80,20 +80,16 @@ NodeTests.prototype.build = function build(options, callback) {
   }
   options = assign({}, options || {}, this.options);
   if (!options.version) return callback(new Error('Options are missing version'));
-  var cacheTarget = path.join(options.cacheDirectory, options.version);
   var buildTarget = path.join(options.buildDirectory, options.version);
 
-  fs.access(cacheTarget, function (missing) {
-    if (missing) return callback(new Error('Node directory is missing'));
+  fs.access(buildTarget, function (missing) {
+    if (!missing && !options.force) return callback();
 
-    fs.access(buildTarget, function (missing) {
-      if (!missing && !options.force) return callback();
-
-      var queue = new Queue(1);
-      missing || queue.defer(rimraf.bind(null, buildTarget));
-      for (var index in BUILD_FOLDERS) queue.defer(buildFolder.bind(null, BUILD_FOLDERS[index], options));
-      queue.await(callback);
-    });
+    var queue = new Queue(1);
+    missing || queue.defer(rimraf.bind(null, buildTarget));
+    queue.defer(this.install.bind(this, options));
+    for (var index in BUILD_FOLDERS) queue.defer(buildFolder.bind(null, BUILD_FOLDERS[index], options));
+    queue.await(callback);
   });
 };
 
@@ -106,6 +102,8 @@ NodeTests.prototype.runSuite = function runSuite(options, callback) {
   if (!options.version) return callback(new Error('Options are missing version'));
 
   var queue = new Queue(1);
+  queue.defer(this.install.bind(this, options));
+  queue.defer(this.build.bind(this, options));
   for (var index in TEST_FOLDERS) queue.defer(runTestFolder.bind(null, TEST_FOLDERS[index], options));
   queue.await(callback);
 };
