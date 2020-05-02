@@ -74,6 +74,7 @@ NodeTests.prototype.install = function install(options, callback) {
 };
 
 NodeTests.prototype.build = function build(options, callback) {
+  var self = this;
   if (typeof options === 'function') {
     callback = options;
     options = null;
@@ -87,7 +88,7 @@ NodeTests.prototype.build = function build(options, callback) {
 
     var queue = new Queue(1);
     missing || queue.defer(rimraf.bind(null, buildTarget));
-    queue.defer(this.install.bind(this, options));
+    queue.defer(self.install.bind(this, options));
     for (var index in BUILD_FOLDERS) queue.defer(buildFolder.bind(null, BUILD_FOLDERS[index], options));
     queue.await(callback);
   });
@@ -129,9 +130,6 @@ NodeTests.prototype.runTest = function runTest(testPath, options, callback) {
           return callback(err);
         }
       }
-
-      // run test in root of node version
-      process.chdir(path.join(options.buildDirectory, options.version));
       require(path.join(options.buildDirectory, options.version, 'test', testPath));
       callback();
     } catch (err) {

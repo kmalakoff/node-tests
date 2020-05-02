@@ -20,7 +20,7 @@
       "program": "${workspaceFolder}/bin/node-test",
       "runtimeArgs": ["--expose-gc", "--no-warnings", "--expose-internals", "--expose_externalize_string"],
       "args": [
-        "parallel/test-fs-readdir-stack-overflow.js",
+        "parallel/test-fs-realpath-native.js",
         "--version",
         "v1.0.0",
         "--module",

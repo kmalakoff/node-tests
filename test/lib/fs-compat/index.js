@@ -5,6 +5,7 @@ var compatMethods = {
   lstat: require('./methods/lstat'),
   readdir: require('./methods/readdir'),
   realpath: require('./methods/realpath'),
+  realpathSync: require('./methods/realpathSync'),
   rmdirSync: require('./methods/rmdirSync'),
   stat: require('./methods/stat'),
 };

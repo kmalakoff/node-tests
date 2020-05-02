@@ -1,6 +1,7 @@
 var path = require('path');
 var fs = require('fs');
 var each = require('async-each');
+var compare = require('semver-compare');
 var DirentFromStats = require('dirent-from-stats');
 
 function create(root, name, callback) {
@@ -15,23 +16,26 @@ function sortedResultsCallbackFn(callback) {
   };
 }
 
-function readdirFileTypesFn(fn) {
-  return function readdirFileTypes(path, options, callback) {
-    if (arguments.length === 2) return fn(path, options);
-    if (!options.withFileTypes) return fn(path, callback);
-
-    fn(path, function readdirCallback(err, names) {
-      if (err) return callback(err);
-      each(names, create.bind(null, path), callback);
-    });
-  };
-}
-
 module.exports = function readdirFileTypesComposer(fn, sort) {
-  var composedfn = readdirFileTypesFn(fn);
-  if (!sort) return composedfn;
-  return function readdirFileTypesWithSort(path, options, callback) {
-    if (arguments.length === 2) return composedfn(path, sortedResultsCallbackFn(options));
-    else return composedfn(path, options, sortedResultsCallbackFn(callback));
-  };
+  if (sort) {
+    return function readdirFileTypesSorted(path, options, callback) {
+      if (arguments.length === 2) return fn(path, sortedResultsCallbackFn(options));
+      if (!options.withFileTypes) return fn(path, sortedResultsCallbackFn(callback));
+
+      fn(path, function readdirCallback(err, names) {
+        if (err) return callback(err);
+        each(names, create.bind(null, path), sortedResultsCallbackFn(callback));
+      });
+    };
+  } else {
+    return function readdirFileTypes(path, options, callback) {
+      if (arguments.length === 2) return fn(path, options);
+      if (!options.withFileTypes) return fn(path, callback);
+
+      fn(path, function readdirCallback(err, names) {
+        if (err) return callback(err);
+        each(names, create.bind(null, path), callback);
+      });
+    };
+  }
 };
