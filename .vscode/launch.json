@@ -19,13 +19,7 @@
       "name": "Run Test",
       "program": "${workspaceFolder}/bin/node-test",
       "runtimeArgs": ["--expose-gc", "--no-warnings", "--expose-internals", "--expose_externalize_string"],
-      "args": [
-        "parallel/test-fs-realpath-native.js",
-        "--version",
-        "v1.0.0",
-        "--module",
-        "fs,/Users/kevin/Dev/OpenSource/node-tests/test/lib/fs-compat/index.js"
-      ],
+      "args": ["parallel/test-fs-stat.js", "--version", "v1.0.0", "--module", "fs,/Users/kevin/Dev/OpenSource/node-tests/test/lib/fs-compat/index.js"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     },
