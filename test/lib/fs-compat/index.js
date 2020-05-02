@@ -1,14 +1,20 @@
 var fs = require('fs');
 var assign = require('object.assign');
 
+var invalidArgThrowRewrite = require('./composers/invalidArgThrowRewrite');
+var readdirFileTypes = require('./composers/readdirFileTypes');
+var realpathPatch = require('./composers/realpathPatch');
+var rmdirSyncRecursive = require('./composers/rmdirSyncRecursive');
+var statOptions = require('./composers/statOptions');
+
 var compatMethods = {
-  lstat: require('./composers/invalidArgThrowRewrite')(require('./composers/statOptions')(fs.lstat)),
-  readdir: require('./composers/invalidArgThrowRewrite')(require('./composers/readdirFileTypes')(fs.readdir)),
-  readdirSync: require('./composers/invalidArgThrowRewrite')(fs.readdirSync),
-  realpath: assign(require('fs.realpath').realpath, { native: fs.realpath.native }),
-  realpathSync: assign(require('fs.realpath').realpathSync, { native: fs.realpathSync.native }),
-  rmdirSync: require('./composers/rmdirSyncRecursive')(fs.rmdirSync),
-  stat: require('./composers/invalidArgThrowRewrite')(require('./composers/statOptions')(fs.stat)),
+  lstat: invalidArgThrowRewrite(statOptions(fs.lstat)),
+  readdir: invalidArgThrowRewrite(readdirFileTypes(fs.readdir)),
+  readdirSync: invalidArgThrowRewrite(fs.readdirSync),
+  realpath: realpathPatch(fs.realpath),
+  realpathSync: realpathPatch(fs.realpathSync),
+  rmdirSync: rmdirSyncRecursive(fs.rmdirSync),
+  stat: invalidArgThrowRewrite(statOptions(fs.stat)),
 };
 
 var fsMethods = {};
