@@ -49,7 +49,13 @@ if (!fs.promises) {
   }
 }
 
-if (!fs.Dirent) fs.Dirent = require('dirent-from-stats');
+if (!fs.Dirent) {
+  fs.Dirent = require('dirent-from-stats').DirentBase;
+  fs.constants = fs.constants || {};
+  for (var cn in fs.Dirent.constants) {
+    if (typeof fs.constants[cn] === 'undefined') fs.constants[cn] = fs.Dirent.constants[cn];
+  }
+}
 
 // need to mix the methods into fs
 module.exports = assign(fs, compatMethods, {
