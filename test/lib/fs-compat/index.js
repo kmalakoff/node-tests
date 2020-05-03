@@ -5,6 +5,7 @@ var endsWith = require('end-with');
 
 var invalidArgThrowRewrite = require('./composers/invalidArgThrowRewrite');
 var readdirFileTypes = require('./composers/readdirFileTypes');
+var readdirSyncFileTypes = require('./composers/readdirSyncFileTypes');
 var realpathPatch = require('./composers/realpathPatch');
 var rmdirRecursive = require('./composers/rmdirRecursive');
 var rmdirSyncRecursive = require('./composers/rmdirSyncRecursive');
@@ -17,7 +18,7 @@ var compatMethods = {
   lstat: invalidArgThrowRewrite(statOptions(fs.lstat)),
   lstatSync: invalidArgThrowRewrite(statSyncOptions(fs.lstatSync)),
   readdir: invalidArgThrowRewrite(readdirFileTypes(fs.readdir)),
-  readdirSync: invalidArgThrowRewrite(fs.readdirSync),
+  readdirSync: invalidArgThrowRewrite(readdirSyncFileTypes(fs.readdirSync)),
   realpath: realpathPatch(fs.realpath),
   realpathSync: realpathPatch(fs.realpathSync),
   rmdir: rmdirRecursive(fs.rmdir),
@@ -33,10 +34,11 @@ for (var key in compatMethods) {
 fsMethods.promises = fs.promises;
 
 if (!fs.promises) {
+  var BUILT_INS = 'Stats';
+
   fs.promises = {};
   for (var name in fs) {
-    // eslint-disable-next-line no-prototype-builtins
-    if (!fs.hasOwnProperty(name) || endsWith(name, 'Sync')) continue;
+    if (endsWith(name, 'Sync') || ~BUILT_INS.indexOf(name) || typeof fs[name] !== 'function') continue;
     fs.promises[name] = promisify(compatMethods[name] || fs[name]);
   }
 } else {
@@ -46,6 +48,8 @@ if (!fs.promises) {
     fs.promises[name] = promisify(compatMethods[name]);
   }
 }
+
+if (!fs.Dirent) fs.Dirent = require('dirent-from-stats');
 
 // need to mix the methods into fs
 module.exports = assign(fs, compatMethods, {

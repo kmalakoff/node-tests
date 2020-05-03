@@ -1,4 +1,4 @@
-var compare = require('semver-compare');
+// var compare = require('semver-compare');
 
 module.exports = function realpathPatchComposer(fn) {
   var name = fn === require('fs').realpath ? 'realpath' : 'realpathSync';

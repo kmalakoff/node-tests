@@ -131,7 +131,7 @@ NodeTests.prototype.runTest = function runTest(testPath, options, callback) {
   queue.defer(testSetup.bind(null, options));
   queue.defer(function (callback) {
     try {
-      require(path.join(options.cacheDirectory, options.version, 'test', testPath));
+      require(path.join(options.buildDirectory, options.version, 'test', testPath));
       callback();
     } catch (err) {
       callback(err);

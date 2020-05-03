@@ -1,4 +1,4 @@
-var compare = require('semver-compare');
+// var compare = require('semver-compare');
 
 var patchBigIntStats = require('../helpers/patchBigIntStats');
 

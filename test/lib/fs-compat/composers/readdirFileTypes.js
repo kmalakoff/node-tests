@@ -3,6 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var each = require('async-each');
 var DirentFromStats = require('dirent-from-stats');
+var sortReaddirResults = require('../helpers/sortReaddirResults');
 
 function create(root, name, callback) {
   return fs.lstat(path.join(root, name), function (err, stats) {
@@ -27,7 +28,7 @@ module.exports = function readdirFileTypesComposer(fn) {
   if (compare(process.versions.node, '0.9.0') < 0) {
     return readdirFileTypesFn(fn, function sortedResultsCallbackFn(callback) {
       return function sortedResultsCallback(err, results) {
-        err ? callback(err) : callback(null, results.sort());
+        err ? callback(err) : callback(null, sortReaddirResults(results));
       };
     });
   } else {

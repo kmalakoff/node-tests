@@ -1,4 +1,4 @@
-var compare = require('semver-compare');
+// var compare = require('semver-compare');
 
 var patchBigIntStats = require('../helpers/patchBigIntStats');
 
@@ -11,6 +11,7 @@ function statOptionsTypesFn(fn, wrapper) {
   return function statOptions(path, options, callback) {
     if (arguments.length === 2) return fn(path, wrapper(options));
     options = options || {};
+    if (!options.bigint) return fn(path, wrapper(callback));
     // if (options.bigInt) return callback(new Error('bigInt option not emulated'));
     return fn(path, options, wrapper(callback));
   };

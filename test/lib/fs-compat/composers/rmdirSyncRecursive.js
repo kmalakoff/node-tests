@@ -1,4 +1,4 @@
-var compare = require('semver-compare');
+// var compare = require('semver-compare');
 
 module.exports = function rmdirSyncRecursiveComposer(fn) {
   var rimraf = require('rimraf');

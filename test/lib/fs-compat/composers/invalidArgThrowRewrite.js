@@ -1,4 +1,4 @@
-var compare = require('semver-compare');
+// var compare = require('semver-compare');
 
 module.exports = function invalidArgThrowRewriteComposer(fn) {
   return function invalidArgThrowRewrite() {
