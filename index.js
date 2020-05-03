@@ -117,20 +117,21 @@ NodeTests.prototype.runTest = function runTest(testPath, options, callback) {
   options = assign({}, options || {}, this.options);
   if (!options.version) return callback(new Error('Options are missing version'));
 
+  // replace module under test
+  if (options.module) {
+    try {
+      var parts = options.module.split(',');
+      mock(parts[0], require(parts[1]));
+    } catch (err) {
+      return callback(err);
+    }
+  }
+
   var queue = new Queue(1);
   queue.defer(testSetup.bind(null, options));
   queue.defer(function (callback) {
     try {
-      // replace module under test
-      if (options.module) {
-        try {
-          var parts = options.module.split(',');
-          mock(parts[0], require(parts[1]));
-        } catch (err) {
-          return callback(err);
-        }
-      }
-      require(path.join(options.buildDirectory, options.version, 'test', testPath));
+      require(path.join(options.cacheDirectory, options.version, 'test', testPath));
       callback();
     } catch (err) {
       callback(err);

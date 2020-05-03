@@ -1,5 +1,7 @@
 var fs = require('fs');
 var assign = require('object.assign');
+var promisify = require('util.promisify');
+var endsWith = require('end-with');
 
 var invalidArgThrowRewrite = require('./composers/invalidArgThrowRewrite');
 var readdirFileTypes = require('./composers/readdirFileTypes');
@@ -27,6 +29,22 @@ var compatMethods = {
 var fsMethods = {};
 for (var key in compatMethods) {
   fsMethods[key] = fs[key];
+}
+fsMethods.promises = fs.promises;
+
+if (!fs.promises) {
+  fs.promises = {};
+  for (var name in fs) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (!fs.hasOwnProperty(name) || endsWith(name, 'Sync')) continue;
+    fs.promises[name] = promisify(compatMethods[name] || fs[name]);
+  }
+} else {
+  // eslint-disable-next-line no-redeclare
+  for (var name in compatMethods) {
+    if (endsWith(name, 'Sync')) continue;
+    fs.promises[name] = promisify(compatMethods[name]);
+  }
 }
 
 // need to mix the methods into fs
