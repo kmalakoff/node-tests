@@ -3,7 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var DirentFromStats = require('dirent-from-stats');
 
-var sortReaddirResults = require('../helpers/sortReaddirResults');
+var sortReaddirResults = require('./sortReaddirResults');
 
 function readdirFileTypesFn(fn, wrapper) {
   return function readdirFileTypes(root, options) {

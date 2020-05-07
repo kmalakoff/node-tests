@@ -103,7 +103,6 @@ NodeTests.prototype.runSuite = function runSuite(options, callback) {
   if (!options.version) return callback(new Error('Options are missing version'));
 
   var queue = new Queue(1);
-  queue.defer(this.install.bind(this, options));
   queue.defer(this.build.bind(this, options));
   for (var index in TEST_FOLDERS) queue.defer(runTestFolder.bind(null, TEST_FOLDERS[index], options));
   queue.await(callback);

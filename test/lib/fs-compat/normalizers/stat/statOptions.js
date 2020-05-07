@@ -1,10 +1,10 @@
 // var compare = require('semver-compare');
 
-var patchBigIntStats = require('../helpers/patchBigIntStats');
+var normalizeStats = require('normalize-stats');
 
 function patchBigIntStatsCallbackFn(callback) {
   return function patchBigIntStatsCallback(err, stats) {
-    return err ? callback(err) : callback(err, patchBigIntStats(stats));
+    return err ? callback(err) : callback(err, normalizeStats(stats));
   };
 }
 function statOptionsTypesFn(fn, wrapper) {

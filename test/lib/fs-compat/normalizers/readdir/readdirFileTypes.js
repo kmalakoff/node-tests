@@ -3,7 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var each = require('async-each');
 var DirentFromStats = require('dirent-from-stats');
-var sortReaddirResults = require('../helpers/sortReaddirResults');
+var sortReaddirResults = require('./sortReaddirResults');
 
 function create(root, name, callback) {
   return fs.lstat(path.join(root, name), function (err, stats) {
