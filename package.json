@@ -2,28 +2,28 @@
   "name": "node-tests",
   "version": "0.1.0",
   "description": "Repackaging of node tests for testing compatibility against",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha-compat test/spec/**/*.test.js --timeout=999999",
-    "compat": "nvs 14,12,10,8,6 -- mocha-compat test/spec/**/*.test.js --timeout=999999",
-    "lint": "eslint . --ext js,mjs",
-    "format": "prettier --write '**/*.{js,mjs}'"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kmalakoff/node-tests.git"
-  },
   "keywords": [
     "fs",
     "generate",
     "fixtures"
   ],
-  "author": "Kevin Malakoff <kmalakoff@gmail.com> (https://github.com/kmalakoff)",
-  "license": "MIT",
+  "homepage": "https://github.com/kmalakoff/node-tests#readme",
   "bugs": {
     "url": "https://github.com/kmalakoff/node-tests/issues"
   },
-  "homepage": "https://github.com/kmalakoff/node-tests#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kmalakoff/node-tests.git"
+  },
+  "license": "MIT",
+  "author": "Kevin Malakoff <kmalakoff@gmail.com> (https://github.com/kmalakoff)",
+  "main": "index.js",
+  "scripts": {
+    "compat": "nvs --engines -- mocha-compat test/spec/**/*.test.js --timeout=999999",
+    "format": "prettier --write '**/*.{js,mjs}'",
+    "lint": "eslint . --ext js,mjs",
+    "test": "mocha-compat test/spec/**/*.test.js --timeout=999999"
+  },
   "dependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
@@ -31,12 +31,12 @@
     "@babel/plugin-proposal-numeric-separator": "^7.8.3",
     "@babel/preset-env": "^7.9.6",
     "assert-patch": "npm:assert",
+    "call-once-fn": "^1.0.0",
     "call-once-next-tick": "^1.0.4",
     "commander": "^2.20.3",
-    "cross-spawn-cb": "^0.1.1",
+    "cross-spawn-cb": "^0.2.2",
     "decompress-zip": "^0.2.2",
     "download": "^8.0.0",
-    "end-of-stream": "^1.4.4",
     "end-with": "^1.0.2",
     "fs-iterator": "^3.0.1",
     "homedir-polyfill": "^1.0.3",
@@ -71,7 +71,7 @@
     "big-int-stats": "^1.2.1",
     "chai": "^4.2.0",
     "dirent-from-stats": "^1.4.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.0.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",
@@ -79,10 +79,13 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "lodash.isdate": "^4.0.1",
-    "mkdirp": "^0.5.5",
+    "mkdirp": "^1.0.4",
     "mocha-compat": "^3.5.5",
-    "nvs": "^0.2.0",
+    "nvs": "^0.3.0",
     "prettier": "^2.0.5",
     "util.promisify": "^1.0.1"
+  },
+  "engines": {
+    "node": ">=0.8.0"
   }
 }
