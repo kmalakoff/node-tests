@@ -19,7 +19,7 @@ describe('test-suite', function () {
     },
   });
 
-  // before(tests.clean.bind(tests));
+  before(tests.clean.bind(tests));
   // after(tests.clean.bind(tests));
 
   it('runs fs tests with built-in fs', function (done) {

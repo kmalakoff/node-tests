@@ -5,11 +5,11 @@ var mock = require('mock-require');
 var Queue = require('queue-cb');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
-var uuid = require('uuid');
+var crypto = require('crypto');
+var download = require('get-remote');
 
-var download = require('./lib/download');
-var moveExtracted = require('./lib/moveExtracted');
 var buildFolder = require('./lib/buildFolder');
+var progress = require('./lib/progress');
 var runTestFolder = require('./lib/runTestFolder');
 var testSetup = require('./lib/testSetup');
 var testTeardown = require('./lib/testTeardown');
@@ -56,12 +56,22 @@ NodeTests.prototype.install = function install(options, callback) {
   fs.access(cacheTarget, function (missing) {
     if (!missing && !options.force) return callback();
 
-    var tempTarget = path.join(path.dirname(cacheTarget), uuid.v4());
+    var tmpBasename = crypto
+      .createHash('md5')
+      .update(cacheTarget)
+      .update('' + new Date().valueOf())
+      .digest('hex')
+      .slice(0, 16);
+    var tempTarget = path.join(path.dirname(cacheTarget), tmpBasename);
     var queue = new Queue(1);
     missing || queue.defer(rimraf.bind(null, cacheTarget));
     queue.defer(mkdirp.bind(null, cacheTarget));
-    queue.defer(download.bind(null, tempTarget, options));
-    queue.defer(moveExtracted.bind(null, tempTarget, cacheTarget, options));
+    queue.defer(function (callback) {
+      download.bind(null, options.repositoryURL(options.version), cacheTarget, { extract: true, strip: 1, progress: progress }, function (err) {
+        console.log('');
+        callback(err);
+      });
+    });
     queue.await(function (err) {
       var q2 = new Queue();
       q2.defer(rimraf.bind(null, tempTarget, {}));
