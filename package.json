@@ -82,7 +82,7 @@
     "lodash.isdate": "^4.0.1",
     "mkdirp": "^0.5.5",
     "mocha-compat": "^3.5.5",
-    "nvs": "^0.4.0",
+    "nvs": "^0.4.1",
     "prettier": "^2.0.5",
     "util.promisify": "^1.0.1"
   },
