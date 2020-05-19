@@ -22,8 +22,8 @@ describe('clean', function () {
     queue.defer(mkdirp.bind(null, path.join(tests.options.cacheDirectory, 'v1.0.0')));
     queue.defer(tests.clean.bind(tests, { version: 'v1.0.0' }));
     queue.defer(function (callback) {
-      fs.access(path.join(tests.options.buildDirectory, 'v1.0.0'), function (missing) {
-        assert.ok(missing);
+      fs.readdir(path.join(tests.options.buildDirectory, 'v1.0.0'), function (err) {
+        assert.ok(err);
         callback();
       });
     });
@@ -40,14 +40,14 @@ describe('clean', function () {
     queue.defer(mkdirp.bind(null, path.join(tests.options.buildDirectory, 'v1.0.0')));
     queue.defer(tests.clean.bind(tests, { version: 'v1.0.0' }));
     queue.defer(function (callback) {
-      fs.access(path.join(tests.options.cacheDirectory, 'v1.0.0'), function (missing) {
-        assert.ok(missing);
+      fs.readdir(path.join(tests.options.cacheDirectory, 'v1.0.0'), function (err) {
+        assert.ok(err);
         callback();
       });
     });
     queue.defer(function (callback) {
-      fs.access(path.join(tests.options.buildDirectory, 'v1.0.0'), function (missing) {
-        assert.ok(missing);
+      fs.readdir(path.join(tests.options.buildDirectory, 'v1.0.0'), function (err) {
+        assert.ok(err);
         callback();
       });
     });

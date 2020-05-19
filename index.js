@@ -53,8 +53,8 @@ NodeTests.prototype.install = function install(options, callback) {
   if (!options.version) return callback(new Error('Options are missing version'));
   var cacheTarget = path.join(options.cacheDirectory, options.version);
 
-  fs.access(cacheTarget, function (missing) {
-    if (!missing && !options.force) return callback();
+  fs.readdir(cacheTarget, function (err, names) {
+    if (!err && names.length && !options.force) return callback();
 
     var tmpBasename = crypto
       .createHash('md5')
@@ -64,10 +64,10 @@ NodeTests.prototype.install = function install(options, callback) {
       .slice(0, 16);
     var tempTarget = path.join(path.dirname(cacheTarget), tmpBasename);
     var queue = new Queue(1);
-    missing || queue.defer(rimraf.bind(null, cacheTarget));
+    err || queue.defer(rimraf.bind(null, cacheTarget));
     queue.defer(mkdirp.bind(null, cacheTarget));
     queue.defer(function (callback) {
-      download.bind(null, options.repositoryURL(options.version), cacheTarget, { extract: true, strip: 1, progress: progress }, function (err) {
+      download(options.repositoryURL(options.version), cacheTarget, { extract: true, strip: 1, progress: progress }, function (err) {
         console.log('');
         callback(err);
       });
@@ -93,11 +93,11 @@ NodeTests.prototype.build = function build(options, callback) {
   if (!options.version) return callback(new Error('Options are missing version'));
   var buildTarget = path.join(options.buildDirectory, options.version);
 
-  fs.access(buildTarget, function (missing) {
-    if (!missing && !options.force) return callback();
+  fs.readdir(buildTarget, function (err, names) {
+    if (!err && names.length && !options.force) return callback();
 
     var queue = new Queue(1);
-    missing || queue.defer(rimraf.bind(null, buildTarget));
+    err || queue.defer(rimraf.bind(null, buildTarget));
     queue.defer(self.install.bind(this, options));
     for (var index in BUILD_FOLDERS) queue.defer(buildFolder.bind(null, BUILD_FOLDERS[index], options));
     queue.await(callback);
