@@ -37,7 +37,7 @@
     "decompress-zip": "^0.2.2",
     "download": "^8.0.0",
     "end-with": "^1.0.2",
-    "fs-iterator": "^3.0.1",
+    "fs-iterator": "^3.0.2",
     "get-remote": "^0.2.3",
     "getopts-compat": "^2.2.5",
     "homedir-polyfill": "^1.0.3",
