@@ -1,19 +1,22 @@
 #!/usr/bin/env node
 
-var program = require('commander');
-var NodeTests = require('..');
+var options = require('yargs-parser')(process.argv.slice(2), {
+  configuration: { 'halt-at-non-option': true },
+});
 
-program.option('-v, --version [version]', 'node version to test against');
-program.option('-m, --module [module]', 'module to test');
-program.parse(process.argv);
+// define.option('-v, --version [version]', 'node version to test against');
+// define.option('-m, --module [module]', 'module to test');
 
-if (program.args.length < 1) {
+var args = options._;
+if (args.length < 1) {
   console.log('Missing command. Example usage: run-test [test]');
   return process.exit(-1);
 }
 
-var tests = new NodeTests(program);
-tests.runTest(program.args[0], function (err) {
+var NodeTests = require('..');
+
+var tests = new NodeTests(options);
+tests.runTest(args[0], function (err) {
   if (err) {
     console.log(err);
     process.exit(-1);

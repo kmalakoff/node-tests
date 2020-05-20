@@ -1,6 +1,6 @@
 var path = require('path');
 var fs = require('fs');
-var assign = require('object.assign');
+var assign = require('object-assign');
 var mock = require('mock-require');
 var Queue = require('queue-cb');
 var rimraf = require('rimraf');
