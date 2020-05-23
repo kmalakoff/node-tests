@@ -4,8 +4,7 @@ var assign = require('object-assign');
 var mock = require('mock-require');
 var Queue = require('queue-cb');
 var rimraf = require('rimraf');
-var mkdirp = require('mkdirp');
-var crypto = require('crypto');
+var mkdirp = require('mkdirp-classic');
 var download = require('get-remote');
 
 var buildFolder = require('./lib/buildFolder');
@@ -56,29 +55,17 @@ NodeTests.prototype.install = function install(options, callback) {
   fs.readdir(cacheTarget, function (err, names) {
     if (!err && names.length && !options.force) return callback();
 
-    var tmpBasename = crypto
-      .createHash('md5')
-      .update(cacheTarget)
-      .update('' + new Date().valueOf())
-      .digest('hex')
-      .slice(0, 16);
-    var tempTarget = path.join(path.dirname(cacheTarget), tmpBasename);
     var queue = new Queue(1);
     err || queue.defer(rimraf.bind(null, cacheTarget));
     queue.defer(mkdirp.bind(null, cacheTarget));
     queue.defer(function (callback) {
-      download(options.repositoryURL(options.version), cacheTarget, { extract: true, strip: 1, progress: progress }, function (err) {
+      download(options.repositoryURL(options.version), cacheTarget, { extract: true, strip: 1, progress: progress, time: 1000 }, function (err) {
         console.log('');
         callback(err);
       });
     });
     queue.await(function (err) {
-      var q2 = new Queue();
-      q2.defer(rimraf.bind(null, tempTarget, {}));
-      !err || q2.defer(rimraf.bind(null, cacheTarget, {}));
-      q2.await(function (err2) {
-        callback(err || err2);
-      });
+      err ? rimraf(cacheTarget, {}, callback) : callback();
     });
   });
 };
