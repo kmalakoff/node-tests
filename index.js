@@ -4,7 +4,7 @@ var assign = require('object-assign');
 var mock = require('mock-require-lazy');
 var Queue = require('queue-cb');
 var rimraf = require('rimraf');
-var mkdirp = require('mkdirp-classic');
+var mkpath = require('mkpath');
 var download = require('get-remote');
 
 var buildFolder = require('./lib/buildFolder');
@@ -57,7 +57,7 @@ NodeTests.prototype.install = function install(options, callback) {
 
     var queue = new Queue(1);
     err || queue.defer(rimraf.bind(null, cacheTarget));
-    queue.defer(mkdirp.bind(null, cacheTarget));
+    queue.defer(mkpath.bind(null, cacheTarget));
     queue.defer(function (callback) {
       download(options.repositoryURL(options.version), cacheTarget, { extract: '.zip', strip: 1, progress: progress, time: 1000 }, function (err) {
         console.log('');

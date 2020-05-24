@@ -1,7 +1,7 @@
 var assert = require('assert');
 var fs = require('fs');
 var path = require('path');
-var mkdirp = require('mkdirp-classic');
+var mkpath = require('mkpath');
 var Queue = require('queue-cb');
 
 var NodeTests = require('../..');
@@ -19,7 +19,7 @@ describe('clean', function () {
   it('ignores missing directory', function (done) {
     var queue = new Queue(1);
 
-    queue.defer(mkdirp.bind(null, path.join(tests.options.cacheDirectory, 'v1.0.0')));
+    queue.defer(mkpath.bind(null, path.join(tests.options.cacheDirectory, 'v1.0.0')));
     queue.defer(tests.clean.bind(tests, { version: 'v1.0.0' }));
     queue.defer(function (callback) {
       fs.readdir(path.join(tests.options.buildDirectory, 'v1.0.0'), function (err) {
@@ -36,8 +36,8 @@ describe('clean', function () {
   it('cleans existing directory', function (done) {
     var queue = new Queue(1);
 
-    queue.defer(mkdirp.bind(null, path.join(tests.options.cacheDirectory, 'v1.0.0')));
-    queue.defer(mkdirp.bind(null, path.join(tests.options.buildDirectory, 'v1.0.0')));
+    queue.defer(mkpath.bind(null, path.join(tests.options.cacheDirectory, 'v1.0.0')));
+    queue.defer(mkpath.bind(null, path.join(tests.options.buildDirectory, 'v1.0.0')));
     queue.defer(tests.clean.bind(tests, { version: 'v1.0.0' }));
     queue.defer(function (callback) {
       fs.readdir(path.join(tests.options.cacheDirectory, 'v1.0.0'), function (err) {
