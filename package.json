@@ -19,7 +19,6 @@
   "author": "Kevin Malakoff <kmalakoff@gmail.com> (https://github.com/kmalakoff)",
   "main": "index.js",
   "scripts": {
-    "compat": "nvs --engines -- mocha-compat test/spec/**/*.test.js --no-timeouts",
     "format": "prettier --write '**/*.{js,mjs}'",
     "lint": "eslint . --ext js,mjs",
     "test": "mocha-compat test/spec/**/*.test.js --no-timeouts"
@@ -46,7 +45,7 @@
     "lodash.some": "^4.6.0",
     "minimatch": "^3.0.4",
     "mkpath": "^1.0.0",
-    "mock-require": "kmalakoff/mock-require#master",
+    "mock-require-lazy": "^1.0.0",
     "ncp": "^2.0.0",
     "next-tick": "^1.1.0",
     "normalize-stats": "^1.0.0",
@@ -81,7 +80,6 @@
     "lodash.isdate": "^4.0.1",
     "mkdirp-classic": "^0.5.3",
     "mocha-compat": "^3.5.5",
-    "nvs": "^0.4.4",
     "prettier": "^2.0.5",
     "util.promisify": "^1.0.1"
   },
