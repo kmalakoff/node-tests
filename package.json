@@ -36,7 +36,7 @@
     "download": "^8.0.0",
     "end-with": "^1.0.2",
     "fs-iterator": "^3.0.3",
-    "get-remote": "^0.4.10",
+    "get-remote": "^0.4.11",
     "getopts-compat": "^2.2.5",
     "homedir-polyfill": "^1.0.3",
     "inherits": "^2.0.4",
