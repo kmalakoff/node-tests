@@ -1,0 +1,2 @@
+ignores: ['@babel/preset-env', '@babel/plugin-proposal-numeric-separator', '@babel/plugin-proposal-class-properties']
+ignoreDirs: [".build", ".cache"]
