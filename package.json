@@ -29,7 +29,7 @@
     "@babel/plugin-proposal-numeric-separator": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
     "assert-patch": "npm:assert",
-    "cross-spawn-cb": "^0.2.4",
+    "cross-spawn-cb": "^0.3.1",
     "end-with": "^1.0.2",
     "fs-iterator": "^3.0.3",
     "fs.realpath": "^1.0.0",
