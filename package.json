@@ -31,6 +31,7 @@
     "assert-patch": "npm:assert",
     "cross-spawn-cb": "^0.3.1",
     "end-with": "^1.0.2",
+    "exit": "^0.1.2",
     "fs-iterator": "^3.0.3",
     "fs.realpath": "^1.0.0",
     "get-remote": "^0.4.11",
