@@ -24,7 +24,7 @@
     "format": "prettier --write .",
     "lint": "eslint . --ext js,mjs",
     "test": "mocha-compat test/spec/**/*.test.js --no-timeouts",
-    "prepublishOnly": "dtd \"npm run lint\" \"depcheck --ignores='depcheck'\""
+    "prepublishOnly": "dtd \"npm run lint\" \"depcheck\""
   },
   "dependencies": {
     "@babel/core": "^7.10.2",
