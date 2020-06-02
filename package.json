@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "description": "Repackaging of node tests for testing compatibility against",
   "keywords": [
-    "fs",
-    "generate",
-    "fixtures"
+    "node",
+    "lts",
+    "tests",
+    "mock",
+    "api"
   ],
   "homepage": "https://github.com/kmalakoff/node-tests#readme",
   "bugs": {

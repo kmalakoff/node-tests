@@ -24,6 +24,5 @@ var NodeTests = require('..');
       console.log(err.message);
       return exit(err.code || -1);
     }
-    exit(0);
   });
 })();
