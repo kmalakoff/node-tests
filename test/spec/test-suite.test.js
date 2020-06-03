@@ -18,9 +18,9 @@ describe.only('test-suite', function () {
       return 'https://codeload.github.com/kmalakoff/node-tests-data/zip/' + version;
     },
   });
-  before(tests.clean.bind(tests));
+  // before(tests.clean.bind(tests));
 
-  it('runs fs tests with built-in fs', function (done) {
+  it.skip('runs fs tests with built-in fs', function (done) {
     tests.runSuite({ version: 'v1.0.0', match: MATCHES, ignore: IGNORES }, function (err) {
       assert.ok(!err);
       done();
