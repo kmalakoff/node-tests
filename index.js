@@ -5,7 +5,7 @@ var mock = require('mock-require-lazy');
 var Queue = require('queue-cb');
 var rimraf = require('rimraf');
 var mkpath = require('mkpath');
-var download = require('get-remote');
+var get = require('get-remote');
 
 var buildFolder = require('./lib/buildFolder');
 var progress = require('./lib/progress');
@@ -59,7 +59,7 @@ NodeTests.prototype.install = function install(options, callback) {
     err || queue.defer(rimraf.bind(null, cacheTarget));
     queue.defer(mkpath.bind(null, cacheTarget));
     queue.defer(function (callback) {
-      download(options.repositoryURL(options.version), cacheTarget, { extract: '.zip', strip: 1, progress: progress, time: 1000 }, function (err) {
+      get(options.repositoryURL(options.version)).extract(cacheTarget, { extension: '.zip', strip: 1, progress: progress, time: 1000 }, function (err) {
         console.log('');
         callback(err);
       });
