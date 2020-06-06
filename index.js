@@ -59,7 +59,7 @@ NodeTests.prototype.install = function install(options, callback) {
     err || queue.defer(rimraf.bind(null, cacheTarget));
     queue.defer(mkpath.bind(null, cacheTarget));
     queue.defer(function (callback) {
-      get(options.repositoryURL(options.version)).extract(cacheTarget, { extension: '.zip', strip: 1, progress: progress, time: 1000 }, function (err) {
+      get(options.repositoryURL(options.version)).extract(cacheTarget, { type: '.zip', strip: 1, progress: progress, time: 1000 }, function (err) {
         console.log('');
         callback(err);
       });
