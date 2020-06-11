@@ -1,2 +1,2 @@
-ignores: ["depcheck", "@babel/preset-env", "@babel/plugin-proposal-numeric-separator", "@babel/plugin-proposal-class-properties"]
+ignores: ["depcheck", "assert", "@babel/core", "@babel/preset-env", "@babel/preset-env", "@babel/plugin-proposal-numeric-separator", "@babel/plugin-proposal-class-properties"]
 ignoreDirs: [".build", ".cache"]
