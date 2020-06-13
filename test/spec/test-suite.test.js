@@ -29,7 +29,6 @@ describe.only('test-suite', function () {
 
   it('runs fs tests with fs-compat', function (done) {
     tests.runSuite({ version: 'v1.0.0', match: MATCHES, ignore: IGNORES, module: 'fs,' + fsCompatModulePath }, function (err) {
-      if (err) console.log(err);
       assert.ok(!err);
       done();
     });
