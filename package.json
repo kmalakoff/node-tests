@@ -36,7 +36,7 @@
     "end-with": "^1.0.2",
     "exit": "^0.1.2",
     "fast-extract": "^0.2.6",
-    "fs-iterator": "^4.0.0",
+    "fs-iterator": "^4.0.1",
     "fs.realpath": "^1.0.0",
     "get-remote": "^0.5.7",
     "getopts-compat": "^2.2.5",
