@@ -6,7 +6,7 @@ var NodeTests = require('../..');
 var fsCompatModulePath = require.resolve(path.join('..', 'lib', 'fs-compat'));
 
 var MATCHES = ['*fs-readd*', '*fs-stat*', '*fs-realp*'];
-var IGNORES = ['test-fs-read-type.js', 'test-fs-close-errors.js'];
+var IGNORES = ['test-fs-read-type.js', 'test-fs-close-errors.js', 'test-fs-readdir-ucs2.js'];
 
 if (typeof BigInt === 'undefined') IGNORES = IGNORES.concat(['test-fs-stat-bigint.js']);
 if (compare(process.versions.node, '9.0.0') < 0) IGNORES = IGNORES.concat(['test-fs-realpath-pipe.js']);
